@@ -1,0 +1,59 @@
+import prisma from "@/lib/prisma";
+import { categorySchema } from "@/schema/category";
+import { NextResponse } from "next/server";
+
+export async function GET(
+    request: Request,
+    {params}: {params: { categoryId: string} },
+) {
+    try {
+        const category = await prisma.category.findFirst({
+            where: {
+                id: Number(params.categoryId),
+            },
+        });
+
+        if (!category) {
+            return new NextResponse("Category not found", {status: 404});
+        }
+        return NextResponse.json(category, {status:200});
+    } catch (err: any) {
+        console.log(err);
+        return new NextResponse("Internal server error", {status:500});
+    }
+}
+
+export async function PATCH (
+    request: Request,
+    {params} : {params: {categoryId: string}},
+) {
+    try {
+    const body = await request.json();
+
+    categorySchema.parse(body);
+
+    const category = await prisma.category.findFirst({
+        where: {
+            id: Number(params.categoryId),
+        },
+    });
+
+    if (!category) {
+        return new NextResponse("Category not found", {status: 404})
+    }
+
+    const updatedCategory = await prisma.category.update({
+        where: {
+            id: category.id,
+        },
+        data: {
+            name: body.name,
+        },
+    });
+
+    return NextResponse.json(updatedCategory, {status: 200});
+    } catch (err: any) {
+        console.log(err);
+        return new NextResponse("Internal server error", {status: 500});
+    }
+}
