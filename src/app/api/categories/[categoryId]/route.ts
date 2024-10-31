@@ -57,3 +57,30 @@ export async function PATCH (
         return new NextResponse("Internal server error", {status: 500});
     }
 }
+
+export async function DELETE(
+    request: Request,
+    {params}: {params: { categoryId: string} },
+) {
+    try {
+        const category = await prisma.category.findFirst({
+            where: {
+                id: Number(params.categoryId),
+            },
+        });
+
+        if (!category) {
+            return new NextResponse("Category not found", {status: 404});
+        }
+
+        await prisma.category.delete({
+            where: {
+                id: Number(params.categoryId)
+            }
+        })
+        return NextResponse.json(category, {status:200});
+    } catch (err: any) {
+        console.log(err);
+        return new NextResponse("Internal server error", {status:500});
+    }
+}

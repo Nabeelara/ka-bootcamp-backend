@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { categorySchema } from "@/schema/category";
 import { ZodError } from "zod";
@@ -6,11 +6,11 @@ import { ZodError } from "zod";
 export async function POST(request: Request) {
     try {
       const body = await request.json();
+      
       categorySchema.parse(body);
   
-      const db = new PrismaClient();
   
-      const category = await db.category.create({
+      const category = await prisma.category.create({
         data: {
           name: body.name,
         },
@@ -51,12 +51,13 @@ export async function POST(request: Request) {
 export async function GET() {
     try {
 
-        const db = new PrismaClient();
 
-        const categories = await db.category.findMany();
+        const categories = await prisma.category.findMany();
 
         return NextResponse.json({
-            
+            data:categories,
+            success:true,
+            message: "Get category success"
         })
     } catch (err:any) {
         return NextResponse.json({

@@ -23,8 +23,14 @@ model User {
   phoneNumber String
   createdAt   DateTime @default(now())
   orders      Order[]
+  roles       Roles
 
   @@map("users")
+}
+
+enum Roles {
+  ADMIN
+  CUSTOMER
 }
 
 model Category {
