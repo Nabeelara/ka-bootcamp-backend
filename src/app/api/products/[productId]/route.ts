@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import { productSchema } from "@/schema/product";
 import { NextResponse } from "next/server";
+import { verifyUser } from "@/lib/verify";
 
 export async function GET(
     request: Request,
@@ -28,6 +29,17 @@ export async function PATCH (
     {params} : {params: {productId: string}},
 ) {
     try {
+        const user = await verifyUser(request);
+
+      if (!user) {
+        return NextResponse.json(
+          {
+            data: null,
+            success: false,
+            message: "Unauthorized"
+          }, {status: 401});
+      }
+
     const body = await request.json();
 
     productSchema.parse(body);
@@ -67,6 +79,17 @@ export async function DELETE(
     {params}: {params: { productId: string} },
 ) {
     try {
+        const user = await verifyUser(request);
+
+      if (!user) {
+        return NextResponse.json(
+          {
+            data: null,
+            success: false,
+            message: "Unauthorized"
+          }, {status: 401});
+      }
+
         const product = await prisma.product.findFirst({
             where: {
                 id: Number(params.productId),
@@ -94,9 +117,20 @@ export async function POST(
     {params}: {params: {productId: string}}
 ) {
     try {
+        const user = await verifyUser(request);
+
+      if (!user) {
+        return NextResponse.json(
+          {
+            data: null,
+            success: false,
+            message: "Unauthorized"
+          }, {status: 401});
+      }
+
         const productId = Number(params.productId);
 
-        //menegecek apakah product dengan ID yang diberikan ada
+        //mengecek apakah product dengan ID yang diberikan ada
         const product = await prisma.product.findUnique({
             where: {
                 id: productId,
@@ -131,6 +165,17 @@ export async function PACTH (
     {params}: {params: {productId: string; colorId: string}}
 ) {
     try {
+        const user = await verifyUser(request);
+
+      if (!user) {
+        return NextResponse.json(
+          {
+            data: null,
+            success: false,
+            message: "Unauthorized"
+          }, {status: 401});
+      }
+
         const productId = Number(params.productId);
         const colorId = Number(params.colorId);
         const {color, quantity} = await request.json();

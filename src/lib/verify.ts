@@ -11,7 +11,7 @@ export async function verifyUser(request: Request) {
         }
 
         const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-        const {payload} = await jwtVerify(token, secret);
+        const { payload } = await jwtVerify(token, secret);
 
         const user = await db.user.findFirstOrThrow({
             where: {
@@ -19,7 +19,11 @@ export async function verifyUser(request: Request) {
             },
         });
 
-        return user;
+        if (user.roles !== "ADMIN"){
+            return null;
+        } else {
+            return user;
+        }
 
     } catch (err: any) {
         return null;

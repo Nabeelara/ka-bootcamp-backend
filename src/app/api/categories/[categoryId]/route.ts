@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import { categorySchema } from "@/schema/category";
 import { NextResponse } from "next/server";
+import { verifyUser } from "@/lib/verify";
 
 export async function GET(
     request: Request,
@@ -28,6 +29,17 @@ export async function PATCH (
     {params} : {params: {categoryId: string}},
 ) {
     try {
+        const user = await verifyUser(request);
+
+      if (!user) {
+        return NextResponse.json(
+          {
+            data: null,
+            success: false,
+            message: "Unauthorized"
+          }, {status: 401});
+      }
+
     const body = await request.json();
 
     categorySchema.parse(body);
@@ -63,6 +75,17 @@ export async function DELETE(
     {params}: {params: { categoryId: string} },
 ) {
     try {
+        const user = await verifyUser(request);
+
+      if (!user) {
+        return NextResponse.json(
+          {
+            data: null,
+            success: false,
+            message: "Unauthorized"
+          }, {status: 401});
+      }
+
         const category = await prisma.category.findFirst({
             where: {
                 id: Number(params.categoryId),

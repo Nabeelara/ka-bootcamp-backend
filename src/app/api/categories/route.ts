@@ -1,10 +1,21 @@
 import prisma from "@/lib/prisma";
+import { verifyUser } from "@/lib/verify";
 import { NextResponse } from "next/server";
 import { categorySchema } from "@/schema/category";
 import { ZodError } from "zod";
 
 export async function POST(request: Request) {
     try {
+      const user = await verifyUser(request);
+
+      if (!user) {
+        return NextResponse.json(
+          {
+            data: null,
+            success: false,
+            message: "Unauthorized"
+          }, {status: 401});
+      }
       const body = await request.json();
       
       categorySchema.parse(body);
@@ -51,7 +62,6 @@ export async function POST(request: Request) {
 export async function GET() {
     try {
 
-
         const categories = await prisma.category.findMany();
 
         return NextResponse.json({
@@ -67,3 +77,4 @@ export async function GET() {
           });
     }
 }
+
