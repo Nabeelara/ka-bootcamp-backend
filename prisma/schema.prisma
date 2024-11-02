@@ -52,7 +52,8 @@ model Product {
   createdAt   DateTime @default(now())
   images      Json
 
-  category Category     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  category Category         @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  
   colors   Color[]
   items    OrderItems[]
 

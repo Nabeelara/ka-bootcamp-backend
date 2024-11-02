@@ -42,16 +42,32 @@ export async function POST(request: Request) {
             images: body.images,
             categoryId: body.categoryId,
             description: body.description,
+            colors: body.color
           },
-        });
+        });            
     
-        await prisma.color.createMany({
-          data: body.colors.map((color: Color) => ({
-            color: color.color,
-            quantity: color.quantity,
-            productId: product.id,
-          })),
-        });
+        try {
+          await prisma.color.createMany({
+            data: body.colors.map((color: Color) => ({
+              color: color.color,
+              quantity: color.quantity,
+              productId: product.id,
+            })),
+          });
+        } catch (error) {
+          console.error("Error creating colors:", error);
+          return NextResponse.json(
+            {
+              data: null,
+              success: false,
+              message: "Failed to create colors",
+            },
+            {
+              status: 500,
+            },
+          );
+        }
+        
     
         return NextResponse.json(
           {
