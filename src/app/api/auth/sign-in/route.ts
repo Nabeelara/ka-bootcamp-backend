@@ -1,5 +1,4 @@
 import { userSignIn } from "@/schema/user";
-import db from "@/lib/prisma";
 import { SignJWT } from "jose";
 import { NextResponse } from "next/server";
 import { compareSync } from "bcrypt";

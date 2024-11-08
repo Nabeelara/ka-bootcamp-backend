@@ -20,7 +20,6 @@ export async function POST(request: Request) {
       
       categorySchema.parse(body);
   
-  
       const category = await prisma.category.create({
         data: {
           name: body.name,
@@ -32,6 +31,7 @@ export async function POST(request: Request) {
         success: true,
         message: "Create category success",
       });
+      
     } catch (err: any) {
       if (err instanceof ZodError) {
         return NextResponse.json(
