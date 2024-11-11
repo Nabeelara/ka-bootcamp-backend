@@ -1,15 +1,20 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
-export async function middleware(request: NextResponse){
+export async function middleware(request: NextRequest) {
     const token = request.cookies.get("token")?.value;
 
     if (!token) {
-        return NextResponse.redirect(new URL("/auth/sign-in", request.url))
+        return NextResponse.redirect(new URL("/auth/signin", request.url));
     }
 
     return NextResponse.next();
-};
+}
 
 export const config = {
-    matcher: ["/", "/products/:path*", "/categories/:path*"],
+    matcher: [
+        "/",
+        "/products/:path*", 
+        "/categories/:path*",
+        "/user/:path*",
+    ],
 };

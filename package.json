@@ -15,11 +15,13 @@
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
+    "dayjs": "^1.11.13",
     "flatpickr": "^4.6.13",
     "jose": "^5.9.6",
     "jsvectormap": "^1.6.0",
     "lucide-react": "^0.438.0",
     "next": "^14.2.4",
+    "next-auth": "^4.24.10",
     "pusher": "^5.2.0",
     "pusher-js": "^8.4.0-rc2",
     "react": "^18",
@@ -27,6 +29,7 @@
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
     "redis": "^4.7.0",
+    "sweetalert2": "^11.14.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {
