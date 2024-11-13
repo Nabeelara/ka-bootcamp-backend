@@ -100,3 +100,45 @@ export async function createCategory(formData: FormData) {
       }
   }
 }
+
+export async function updateCategory(categoryId: string, formData: FormData) {
+  try {
+    const body = {
+      name: formData.get("name"),
+      isActive: formData.get("isActive"),
+      description: formData.get("description"),
+    };
+    categorySchema.parse(body);
+
+    const category = await prisma.category.update({
+      where: { id: parseInt(categoryId) },
+      data: {
+        name: body.name as string,
+        isActive: body.isActive === "1" ? true : false,
+        description: body.description as string,
+      },
+    });
+
+    return { success: "Category updated successfully", data: category };
+  } catch (err: any) {
+    if (err instanceof ZodError) {
+      return { error: "Please insert a correct data" };
+    } else {
+      return { error: err?.message || "Internal server error" };
+    }
+  }
+}
+
+export async function deleteCategory(categoryId: string) {
+ try {
+    await prisma.category.delete({
+        where: {
+            id: parseInt(categoryId),
+        },
+    });
+
+    return { success: "Category deleted successfully" };
+  } catch (err: any) {
+    return { error: err?.message || "Internal server error" };
+  }
+}
