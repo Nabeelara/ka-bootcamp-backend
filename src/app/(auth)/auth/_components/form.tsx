@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn } from "@/actions";
+import { signIn } from "@/app/actions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";

@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 const colorSchema = z.object({
-  // id: z.number(),
   color: z.string(),
   quantity: z.number(),
 });
@@ -12,10 +11,10 @@ const colorSchema = z.object({
 // });
 
 export const productSchema = z.object({
-  name: z.string().min(3),
+  name: z.string().min(1, "Name is required"), // Validasi nama
   price: z.number(),
   categoryId: z.number(),
-  description: z.string().optional(),
+  description: z.string().nullable().optional(), // Deskripsi opsional
   company: z.string(),
   colors: z.array(colorSchema),
   // images: z.array(imageSchema),

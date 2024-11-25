@@ -1,6 +1,6 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import prisma from "@/lib/prisma";
-import { CategoryFormEdit } from "../_components/form";
+import Form from "../_components/form";
 
 export default async function EditCategoryPage({
   params,
@@ -20,7 +20,7 @@ export default async function EditCategoryPage({
   return (
     <>
       <Breadcrumb pageName="Edit Category" />
-      <CategoryFormEdit category = {category} />
+      <Form category = {category} />
     </>
   );
 }

@@ -1,5 +1,5 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import { CategoryForm } from "../_components/form";
+import Form from "../_components/form";
 
 export default function CreateCategoryPage() {
    
@@ -7,7 +7,7 @@ export default function CreateCategoryPage() {
         <>
             <Breadcrumb pageName="Create Category" />
 
-             <CategoryForm />
+             <Form />
         </>
     )
 }

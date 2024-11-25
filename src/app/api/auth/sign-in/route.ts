@@ -25,9 +25,9 @@ export async function POST(request: Request) {
             });
         }
 
-        if (user.roles !== "ADMIN") {
-            return new NextResponse("User not admin", {status: 401});
-        }
+        // if (user.roles !== "ADMIN") {
+        //     return new NextResponse("User not admin", {status: 401});
+        // }
 
         const {password, ...props} = user;
 

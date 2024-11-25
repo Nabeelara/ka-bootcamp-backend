@@ -8,5 +8,5 @@ const itemSchema = z.object({
 
 export const orderSchema = z.object({
   items: z.array(itemSchema),
-  userId: z.number(),
+  // userId: z.number(),
 });

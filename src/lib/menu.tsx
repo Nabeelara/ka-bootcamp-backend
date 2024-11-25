@@ -34,7 +34,7 @@ export const menuGroups = [
       {
         icon: <User size={18} />,
         label: "User",
-        route: "/user",
+        route: "/users",
       },
     ],
   },

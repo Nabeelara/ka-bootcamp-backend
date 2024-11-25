@@ -1,6 +1,6 @@
 'use client';
 
-import { deleteCategory } from "@/actions";
+import { deleteCategory } from "@/app/actions";
 import Swal from 'sweetalert2';
 
 export default function DeleteCategoryButton({ categoryId }: { categoryId: string }) {

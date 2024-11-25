@@ -21,11 +21,11 @@ export async function verifyUser(request: Request) {
             },
         });
 
-        if (user.roles !== "ADMIN"){
-            return null;
-        } else {
+        // if (user.roles !== "ADMIN"){
+        //     return null;
+        // } else {
             return user;
-        }
+        // }
 
     } catch (err: any) {
         return null;
