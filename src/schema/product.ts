@@ -1,8 +1,9 @@
 import { z } from "zod";
 
-const colorSchema = z.object({
-  color: z.string(),
+const flavourSchema = z.object({
+  name: z.string(),
   quantity: z.number(),
+  color: z.string(),
 });
 
 // const imageSchema = z.object({
@@ -16,6 +17,7 @@ export const productSchema = z.object({
   categoryId: z.number(),
   description: z.string().nullable().optional(), // Deskripsi opsional
   company: z.string(),
-  colors: z.array(colorSchema),
+  rating: z.string().optional().nullable(),
+  flavours: z.array(flavourSchema),
   // images: z.array(imageSchema),
 });

@@ -42,12 +42,12 @@ export async function POST(request: Request) {
             images: body.images,
             categoryId: body.categoryId,
             description: body.description,
-            colors: body.color
+           
           },
         });            
     
         try {
-          await prisma.color.createMany({
+          await prisma.flavour.createMany({
             data: body.colors.map((color: Color) => ({
               color: color.color,
               quantity: color.quantity,
@@ -109,7 +109,12 @@ export async function POST(request: Request) {
 export async function GET() {
     try {
 
-        const products = await prisma.product.findMany();
+        const products = await prisma.product.findMany({
+          include:{
+            category: true,
+            flavours:true
+          }
+        });
 
         return NextResponse.json({
             data: products

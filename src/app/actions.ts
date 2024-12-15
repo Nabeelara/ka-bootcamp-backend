@@ -9,6 +9,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { categorySchema } from "../schema/category";
 import { productSchema } from "@/schema/product";
+import { Flavour } from "@prisma/client";
 
 interface Color {
   color: string;
@@ -151,7 +152,11 @@ export async function deleteCategory(categoryId: string) {
 
 export async function createProduct(
   formData: FormData,
-  colors: Color[],
+  flavours: {
+    name:string,
+    color: string;
+    quantity: number
+  }[],
   images: string[],
 ) {
   try {
@@ -162,12 +167,8 @@ export async function createProduct(
       price: Number(formData.get("price")),
       company: formData.get("company"),
       images,
-      colors,
+      flavours,
     };
-
-    console.log(body)
-
-    
 
     productSchema.parse(body);
 
@@ -182,12 +183,13 @@ export async function createProduct(
       },
     });
 
-    for (const color of colors) {
-      await prisma.color.create({
+    for (const flavour of flavours) {
+      await prisma.flavour.create({
         data: {
-          color: color.color,
-          quantity: color.quantity,
+          color: flavour.color,
+          quantity: flavour.quantity,
           productId: product.id,
+          name: flavour.name
         },
       });
     }
@@ -206,11 +208,12 @@ export async function createProduct(
   }
 }
 
-export async function updateProduct(productId: number, formData: any, images: string[], colors: {
+export async function updateProduct(productId: number, formData: any, images: string[], flavours: {
   id?: number;
   color: string;
-  quantity: number 
-}[], idsColor: number[],) {
+  quantity: number,
+  name:string 
+}[], idsFlavour: number[],) {
   try {
     // Ekstrak data dari formData
     const body = {
@@ -220,10 +223,10 @@ export async function updateProduct(productId: number, formData: any, images: st
       price: Number(formData.get("price")),
       company: formData.get("company"),
       images,
-      colors,
+      flavours,
     };
-
-    console.log("delete", idsColor)
+    
+    // console.log("delete", idsColor)
     
     // Validasi data dengan schema
     productSchema.parse(body);
@@ -241,30 +244,32 @@ export async function updateProduct(productId: number, formData: any, images: st
       },
     });
 
-    for (const color of colors) {
-      if (color.id) {
-        await prisma.color.update({
+    for (const flavour of flavours) {
+      if (flavour.id) {
+        await prisma.flavour.update({
           where: {
-            id: color.id
+            id: flavour.id
           },
           data: {
-            color: color.color,
-            quantity: color.quantity
+            color: flavour.color,
+            quantity: flavour.quantity,
+            name: flavour.name
           }
         })
       } else {
-        await prisma.color.create({
+        await prisma.flavour.create({
           data: {
-            color: color.color,
-            quantity: color.quantity,
-            productId: product.id
+            color: flavour.color,
+            quantity: flavour.quantity,
+            productId: product.id,
+            name: flavour.name
           }
         })
       }
     }
 
-    for (const id of idsColor) {
-      await prisma.color.delete({
+    for (const id of idsFlavour) {
+      await prisma.flavour.delete({
         where: {
           id: id
         }

@@ -26,7 +26,7 @@ export async function PATCH(
           include: {
             product: {
               include: {
-                colors: true,
+                flavours: true,
               },
             },
           },
@@ -62,7 +62,7 @@ export async function PATCH(
         for (const item of order.items) {
           const { colorId, productId, quantity, ...prop } = item;
 
-          await ctx.color.update({
+          await ctx.flavour.update({
             where: {
               id: colorId,
               productId: productId,
@@ -123,7 +123,7 @@ export async function GET (
                     include: {
                         product: {
                             include: {
-                                colors: true,
+                                flavours: true,
                             }
                         }
                     }
@@ -161,7 +161,7 @@ export async function GET (
               });
       
               for (const item of order.items) {
-                await ctx.color.update({
+                await ctx.flavour.update({
                   where: { id: item.colorId },
                   data: { quantity: { increment: item.quantity } },
                 });
@@ -212,7 +212,7 @@ export async function DELETE (
               include: {
                 product: {
                   include: {
-                    colors: true,
+                    flavours: true,
                   },
                 },
               },

@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     }
 
     for (const item of body.items as OrderPayload[]) {
-      const color = await prisma.color.findFirstOrThrow({
+      const color = await prisma.flavour.findFirstOrThrow({
         where: {
           id: item.colorId,
           productId: item.productId,
@@ -58,13 +58,13 @@ export async function POST(request: Request) {
         postalCode: body.postalCode,
         country: body.country,
         city: body.city,
-        // items: {
-        //   create: (body.items as OrderPayload[]).map((item) => ({
-        //     colorId: item.colorId,
-        //     productId: item.productId,
-        //     quantity: item.quantity,
-        //   })),
-        // },
+        items: {
+          create: (body.items as OrderPayload[]).map((item) => ({
+            colorId: item.colorId,
+            productId: item.productId,
+            quantity: item.quantity,
+          })),
+        },
       },
       include: {
         user: true,
@@ -72,14 +72,14 @@ export async function POST(request: Request) {
     });
 
     for (const item of body.items as OrderPayload[]) {
-      const color = await prisma.color.findFirstOrThrow({
+      const color = await prisma.flavour.findFirstOrThrow({
         where: {
           id: item.colorId,
           productId: item.productId,
         },
       });
 
-      await prisma.color.update({
+      await prisma.flavour.update({
         where: {
           id: color.id,
         },
@@ -121,9 +121,10 @@ export async function GET(request: Request) {
             product: {
               include: {
                 category: true, // Kategori produk
-                colors: true,   // Warna produk
+                flavours: true,   // Warna produk
               },
             },
+            flavour: true,
           },
         },
       },

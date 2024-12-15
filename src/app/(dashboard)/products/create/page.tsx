@@ -7,7 +7,8 @@ export default async function CreateProductsPage() {
         where: {
             isActive: true,
         }
-    })
+    });
+
    
     return (
         <>

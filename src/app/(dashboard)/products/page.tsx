@@ -9,10 +9,11 @@ const ProductsPage = async () => {
     const products = await prisma.product.findMany({
         include: {
             category: true,
-            colors: true
+            flavours:true
         }
     })
     console.log(products);
+  
   return (
     <>
     <Breadcrumb pageName="Products" />      
@@ -82,10 +83,10 @@ const ProductsPage = async () => {
           </div>
           <div className="col-span-1 flex items-center">
             <div className=" flex gap-2 text-sm text-black dark:text-white">{
-                product.colors.map((color) => (
-                    <div key={color.id}
+                product.flavours.map((flavour) => (
+                    <div key={flavour.id}
                     style={{
-                        backgroundColor: color.color,
+                        backgroundColor: flavour.color,
                         height: 20,
                         width: 20,
                         borderRadius: "50%"

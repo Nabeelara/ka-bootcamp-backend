@@ -3,6 +3,11 @@
 import { ApexOptions } from "apexcharts";
 import React from "react";
 import dynamic from "next/dynamic";
+import { Profit } from "@/types/profits";
+
+type ChartTwoProps = {
+  profits: Profit[];
+}
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -60,7 +65,7 @@ const options: ApexOptions = {
     fontSize: "14px",
 
     markers: {
-      radius: 99,
+      // radius: 99,
     },
   },
   fill: {
@@ -68,27 +73,35 @@ const options: ApexOptions = {
   },
 };
 
-interface ChartTwoState {
-  series: {
-    name: string;
-    data: number[];
-  }[];
-}
+// interface ChartTwoState {
+//   series: {
+//     name: string;
+//     data: number[];
+//   }[];
+// }
 
-const ChartTwo: React.FC = () => {
+const ChartTwo= ({profits}:ChartTwoProps) => {
+  const totalProfit = profits.map((profits) => {
+    const {orders} = profits;
+
+    let total = 0;
+    orders.forEach((order) => {
+      order.items.forEach((item) => {
+        total += item.product.price * item.quantity;
+      });
+    });
+    return total;
+  })
+
   const series = [
     {
-      name: "Sales",
-      data: [44, 55, 41, 67, 22, 43, 65],
-    },
-    {
-      name: "Revenue",
-      data: [13, 23, 20, 8, 13, 27, 15],
+      name: "Profit",
+      data: totalProfit,
     },
   ];
 
   return (
-    <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
+    <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-6">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
           <h4 className="text-xl font-semibold text-black dark:text-white">

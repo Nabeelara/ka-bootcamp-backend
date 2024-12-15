@@ -19,7 +19,7 @@ export default async function EditProductPage({
     const product = await prisma.product.findUnique({
       where: { id: productId },
       include: {
-        colors: {
+        flavours: {
             orderBy: {
                 createdAt: "asc",
             }
@@ -46,7 +46,7 @@ export default async function EditProductPage({
   return (
     <>
       <Breadcrumb pageName="Edit Product" />
-      <FormProduct product={product} categories={categories} />
+      <FormProduct categories={categories} product={product} />
     </>
   );
 }

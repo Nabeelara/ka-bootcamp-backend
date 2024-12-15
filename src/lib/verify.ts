@@ -4,9 +4,9 @@ import db from "@/lib/prisma";
 export async function verifyUser(request: Request) {
     try {
         const authHeader = request.headers.get("authorization");
-        console.log(authHeader);
+        // console.log(authHeader);
         const token = authHeader?.split(" ")[1];
-        console.log(token);
+        // console.log(token);
         
         if (!token) {
             return null;
