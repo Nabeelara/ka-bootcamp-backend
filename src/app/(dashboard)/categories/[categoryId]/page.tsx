@@ -9,7 +9,7 @@ export default async function EditCategoryPage({
 }) {
   const category = await prisma.category.findUnique({
     where: {
-      id: parseInt(params.categoryId),
+      id: Number(params.categoryId),
     },
   });
 
