@@ -61,7 +61,7 @@ export async function signIn(formData: FormData) {
     const { password, ...props } = user;
 
     //setting cookie
-    (await cookies()).set("token", token);
+    cookies().set("token", token);
 
     return { token };
 
@@ -77,7 +77,7 @@ export async function signIn(formData: FormData) {
 
 export async function logOut() {
     // console.log("logout");
-    (await cookies()).delete("token");
+    cookies().delete("token");
     redirect("/auth/signin");
 }
 

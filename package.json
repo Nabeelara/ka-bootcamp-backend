@@ -23,7 +23,7 @@
     "js-cookie": "^3.0.5",
     "jsvectormap": "^1.6.0",
     "lucide-react": "^0.438.0",
-    "next": "^15.1.2",
+    "next": "^14.2.4",
     "next-auth": "^4.24.10",
     "pusher": "^5.2.0",
     "pusher-js": "^8.4.0-rc2",
