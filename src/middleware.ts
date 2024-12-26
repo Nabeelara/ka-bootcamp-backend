@@ -1,38 +1,31 @@
-import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { NextResponse, NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname.includes("/api/")) {
-    const response = NextResponse.next();
-    response.headers.set(
-      "Access-Control-Allow-Origin",
-      process.env.DOMAIN_NAME || "*",
-    );
-    response.headers.set(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PUT, DELETE, OPTIONS",
-    );
-    response.headers.set(
-      "Access-Control-Allow-Headers",
-      "Content-Type, Authorization",
-    );
-
-    if (request.method === "OPTIONS") {
-      return new NextResponse(null, { status: 200 });
+    if (request.nextUrl.pathname.includes("/api/")) {
+        const res = NextResponse.next();
+        res.headers.set("Access-Control-Allow-Origin", process.env.DOMAIN_NAME || "*");
+        res.headers.set(
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT DELETE, OPTIONS"
+        );
+        res.headers.set(
+            "Access-Control-Allow-Headers",
+            "Content-Type, Authorization"
+        );
+        if(request.method === "OPTIONS") {
+            return new NextResponse(null, { status: 204 });
+        }
+        return res;
     }
+    const token = request.cookies.get("token")?.value;
 
-    return response;
-  }
-
-  const token = (await cookies()).get("token")?.value;
-
-  if (!token) {
-    return NextResponse.redirect(new URL("/auth/signin", request.url));
-  }
-
-  return NextResponse.next();
+    if (!token) {
+        return NextResponse.redirect(new URL("/auth/signin", request.url));
+    } else {
+        return NextResponse.next();
+    }
 }
 
 export const config = {
-  matcher: ["/"],
+    matcher: [ "/", "/products/:path*",  "/categories/:path*"],
 };
