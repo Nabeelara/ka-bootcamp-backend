@@ -16,6 +16,11 @@ interface Color {
   quantity: number;
 }
 
+interface DeleteResponse {
+  success?: string;
+  error?: string;
+}
+
 export async function signIn(formData: FormData) {
   try {
     // Tangkap data dari request
@@ -136,12 +141,12 @@ export async function updateCategory(categoryId: string, formData: FormData) {
   }
 }
 
-export async function deleteCategory(categoryId: string) {
- try {
+export async function deleteCategory(id: number): Promise<DeleteResponse> {
+  try {
     await prisma.category.delete({
-        where: {
-            id: parseInt(categoryId),
-        },
+      where: {
+        id: id,
+      },
     });
 
     return { success: "Category deleted successfully" };

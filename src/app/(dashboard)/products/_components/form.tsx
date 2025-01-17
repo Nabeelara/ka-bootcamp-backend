@@ -234,7 +234,7 @@ export default function FormProduct({ categories, product }: FormProductProps) {
                 {/* Color */}
                 <div className="my-4.5">
                   <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                    Color
+                    Flavour
                   </label>
                   {flavours.map((item, index) => (
                     <div key={index} className="mb-4.5 grid grid-cols-4 gap-5">
@@ -302,7 +302,7 @@ export default function FormProduct({ categories, product }: FormProductProps) {
                     onClick={handleAddColor}
                     className="mb-4.5 w-full rounded-md bg-black py-3 text-white transition-opacity hover:bg-black/90"
                   >
-                    Add Color
+                    Add Flavour
                   </button>
                 </div>
                 {/* End Color */}
