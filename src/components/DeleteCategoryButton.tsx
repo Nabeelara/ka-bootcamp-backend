@@ -18,8 +18,8 @@ export default function DeleteCategoryButton({ categoryId }: { categoryId: strin
 
     // If user confirms deletion
     if (result.isConfirmed) {
-        const res = await deleteCategory(categoryId);
-        
+      const res = await deleteCategory(Number(categoryId));
+
         if (!res.success) {
             Swal.fire({
                 icon: "error",
